@@ -1,5 +1,6 @@
 package com.example.a_to_z_apiretrofit_mvvm.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -33,6 +34,9 @@ class PostViewModel : ViewModel() {
 
 
     private fun validate() {
+        if (title.isBlank()){
+            Log.e("Tag","Is Empty")
+        }
 
     }
 
@@ -51,8 +55,8 @@ class PostViewModel : ViewModel() {
         viewModelScope.launch {
             val response = repository.createPost(title, body)
             if (response.isSuccessful) {
-                postResult.postValue("Post created: ${response.body()}")
-                fetchPosts()
+                postResult.postValue("Post created: ${response.body()} ")
+//                fetchPosts()
             } else {
                 postResult.postValue("Failed to create post.")
             }
