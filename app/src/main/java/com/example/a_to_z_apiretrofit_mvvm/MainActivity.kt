@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.a_to_z_apiretrofit_mvvm.databinding.ActivityMainBinding
 import com.example.a_to_z_apiretrofit_mvvm.viewmodel.PostViewModel
+import com.ncorti.slidetoact.SlideToActView
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,14 +31,22 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
         }
 
-        binding.btnSubmit.setOnClickListener {
-            viewModel.title = binding.editTitle.text.toString()
-            viewModel.body = binding.editBody.text.toString()
-            viewModel.createPost()
+
+        val slideView = findViewById<SlideToActView>(R.id.btnSubmit)
+        slideView.onSlideCompleteListener = object : SlideToActView.OnSlideCompleteListener {
+            override fun onSlideComplete(view: SlideToActView) {
+
+                viewModel.title = binding.editTitle.text.toString()
+                viewModel.body = binding.editBody.text.toString()
+                viewModel.createPost()
+            }
         }
 
-        binding.btnFetch.setOnClickListener {
-            viewModel.fetchPosts()
+        val slidebtn = findViewById<SlideToActView>(R.id.btnFetch)
+        slidebtn.onSlideCompleteListener = object  : SlideToActView.OnSlideCompleteListener{
+            override fun onSlideComplete(view: SlideToActView) {
+                viewModel.fetchPosts()
+            }
         }
     }
 }

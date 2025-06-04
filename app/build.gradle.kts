@@ -65,5 +65,7 @@ dependencies {
 
 // ViewModelProvider (if not using Hilt or Koin)
     implementation ("androidx.activity:activity-ktx:1.9.0")
+    implementation ("org.maplibre.gl:android-sdk:9.6.0")
+    implementation ("com.ncorti:slidetoact:0.9.0")
 
 }

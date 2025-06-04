@@ -34,8 +34,8 @@ class PostViewModel : ViewModel() {
 
 
     private fun validate() {
-        if (title.isBlank()){
-            Log.e("Tag","Is Empty")
+        if (title.isBlank()) {
+            Log.e("Tag", "Is Empty")
         }
 
     }
@@ -56,6 +56,7 @@ class PostViewModel : ViewModel() {
             val response = repository.createPost(title, body)
             if (response.isSuccessful) {
                 postResult.postValue("Post created: ${response.body()} ")
+                Log.e("Tag", "Is Empty")
 //                fetchPosts()
             } else {
                 postResult.postValue("Failed to create post.")
