@@ -10,12 +10,27 @@ class PostRepository {
         return RetrofitClient.instance.getPosts()
     }
 
-    suspend fun createPost(title: String, body: String): Response<JsonElement> {
+    suspend fun createPost(
+        title: String,
+        name: String,
+        gender: String,
+        address: String
+    ): Response<JsonElement> {
         val json = JsonObject().apply {
             addProperty("title", title)
-            addProperty("body", body)
+            addProperty("body", name)
             addProperty("userId", 1)
+            addProperty("gender", gender)
+            addProperty("address", address)
         }
         return RetrofitClient.instance.createPost(json)
+    }
+
+    suspend fun createPostMedicineData(medicinename: String, quantity: Int): Response<JsonElement> {
+        val json = JsonObject().apply {
+            addProperty("medicine", medicinename)
+            addProperty("quantity", quantity)
+        }
+        return RetrofitClient.instance.createPostMedicineData(json)
     }
 }

@@ -13,10 +13,55 @@
         android:hint="Title" />
 
     <EditText
-        android:id="@+id/editBody"
+        android:id="@+id/editName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Body" />
+        android:hint="Name " />
+
+    <RadioGroup
+        android:id="@+id/radioGroupGender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radioMale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Male" />
+
+        <RadioButton
+            android:id="@+id/radioFemale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Female" />
+
+        <RadioButton
+            android:id="@+id/radioOther"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Other" />
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/editAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Address" />
+
+    <EditText
+        android:id="@+id/editMedicineName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="MedicineName" />
+
+    <EditText
+        android:id="@+id/editMedicineQuntity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:maxLength="5"
+        android:hint="MedicineQuantity" />
 
     <com.ncorti.slidetoact.SlideToActView
         android:id="@+id/btnSubmit"
@@ -24,7 +69,7 @@
         android:layout_height="72dp"
         android:layout_margin="10dp"
         app:icon="@drawable/ic_check"
-        app:text="Acknowledge"/>
+        app:text="Post Data"/>
 
     <com.ncorti.slidetoact.SlideToActView
         android:id="@+id/btnFetch"
@@ -32,9 +77,19 @@
         android:layout_margin="10dp"
         android:layout_height="72dp"
         app:icon="@drawable/ic_check"
-        app:text="Acknowledge"/>
+        app:text="Get Data"/>
 
 
+    <TextView
+        android:id="@+id/tvFeachedData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp" />
+    <TextView
+        android:id="@+id/tvFeachedMedicineData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp" />
 
     <ScrollView
         android:layout_width="match_parent"

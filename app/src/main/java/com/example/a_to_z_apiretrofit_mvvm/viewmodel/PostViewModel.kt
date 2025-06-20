@@ -13,6 +13,7 @@ class PostViewModel : ViewModel() {
     private val repository = PostRepository()
     val obsResponse = MutableLiveData<List<JsonElement>>()
     val postResult = MutableLiveData<String>()
+    val postResultMedicine = MutableLiveData<String>()
 
     var id: Int = -1
         set(value) {
@@ -26,40 +27,79 @@ class PostViewModel : ViewModel() {
             validate()
         }
 
-    var body: String = ""
+    var name: String = ""
         set(value) {
             field = value
             validate()
         }
 
+    var Gender: String = ""
+        set(value) {
+            field = value
+            validate()
+        }
+
+    var address: String = ""
+        set(value) {
+            field = value
+            validate()
+        }
+
+    var MedicineName: String = ""
+    var medicineQuantity: Int = 0
+
 
     private fun validate() {
         if (title.isBlank()) {
-            Log.e("Tag", "Is Empty")
+            Log.e("Tag", "Title is Empty")
         }
-
+        if (name.isEmpty()) {
+            Log.e("TAG", "Name is Empty")
+        }
     }
+
 
     fun fetchPosts() {
         viewModelScope.launch {
-            val response = repository.getPosts()
-            if (response.isSuccessful) {
-                obsResponse.postValue(response.body())
-            } else {
-                postResult.postValue("Error fetching posts.")
+            try {
+                val response = repository.getPosts()
+                if (response.isSuccessful) {
+                    obsResponse.postValue(response.body())
+                } else {
+                    postResult.postValue("Error fetching posts: ${response.code()}")
+                }
+            } catch (e: Exception) {
+                postResult.postValue("Network error: ${e.message}")
             }
         }
     }
 
     fun createPost() {
         viewModelScope.launch {
-            val response = repository.createPost(title, body)
-            if (response.isSuccessful) {
-                postResult.postValue("Post created: ${response.body()} ")
-                Log.e("Tag", "Is Empty")
-//                fetchPosts()
-            } else {
-                postResult.postValue("Failed to create post.")
+            try {
+                val response = repository.createPost(title, name, Gender, address)
+                if (response.isSuccessful) {
+                    postResult.postValue("Post created successfully")
+                } else {
+                    postResult.postValue("Failed to create post: ${response.code()}")
+                }
+            } catch (e: Exception) {
+                postResult.postValue("Error: ${e.message}")
+            }
+        }
+    }
+
+    fun createMedicinePostData() {
+        viewModelScope.launch {
+            try {
+                val response = repository.createPostMedicineData(MedicineName, medicineQuantity)
+                if (response.isSuccessful) {
+                    postResultMedicine.postValue("Medicine data created successfully")
+                } else {
+                    postResultMedicine.postValue("Failed to create medicine data")
+                }
+            } catch (e: Exception) {
+                postResultMedicine.postValue("Error: ${e.message}")
             }
         }
     }

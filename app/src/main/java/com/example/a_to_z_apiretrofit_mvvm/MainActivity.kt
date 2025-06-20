@@ -1,6 +1,7 @@
 package com.example.a_to_z_apiretrofit_mvvm
 
 import android.os.Bundle
+import android.widget.RadioButton
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -19,34 +20,53 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         viewModel.obsResponse.observe(this) { list ->
-            val builder = StringBuilder()
-            for (item in list) {
-                val obj = item.asJsonObject
-                builder.append("• ${obj["title"].asString}\n")
+            list?.let {
+                val builder = StringBuilder()
+                for (item in it) {
+                    val obj = item.asJsonObject
+                    builder.append("• ${obj["title"].asString}\n")
+                }
+                binding.tvData.text = builder.toString()
             }
-            binding.tvData.text = builder.toString()
         }
 
-        viewModel.postResult.observe(this) {
-            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+        viewModel.postResult.observe(this) { resultMessage ->
+            resultMessage?.let {
+                binding.tvFeachedData.text = it
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            }
         }
 
+        viewModel.postResultMedicine.observe(this) { resultMessage ->
+            resultMessage?.let {
+                binding.tvFeachedMedicineData.text = it
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            }
+        }
 
-        val slideView = findViewById<SlideToActView>(R.id.btnSubmit)
-        slideView.onSlideCompleteListener = object : SlideToActView.OnSlideCompleteListener {
+        binding.btnSubmit.onSlideCompleteListener = object : SlideToActView.OnSlideCompleteListener {
             override fun onSlideComplete(view: SlideToActView) {
-
                 viewModel.title = binding.editTitle.text.toString()
-                viewModel.body = binding.editBody.text.toString()
+                viewModel.name = binding.editName.text.toString()
+                viewModel.Gender = getSelectedGender()
+                viewModel.address = binding.editAddress.text.toString()
+
+                viewModel.MedicineName = binding.editMedicineName.text.toString()
+                viewModel.medicineQuantity = binding.editMedicineQuntity.text.toString().toIntOrNull() ?: 0
+
                 viewModel.createPost()
+                viewModel.createMedicinePostData()
             }
         }
 
-        val slidebtn = findViewById<SlideToActView>(R.id.btnFetch)
-        slidebtn.onSlideCompleteListener = object  : SlideToActView.OnSlideCompleteListener{
+        binding.btnFetch.onSlideCompleteListener = object : SlideToActView.OnSlideCompleteListener {
             override fun onSlideComplete(view: SlideToActView) {
                 viewModel.fetchPosts()
             }
         }
+    }
+
+    private fun getSelectedGender(): String {
+        return findViewById<RadioButton>(binding.radioGroupGender.checkedRadioButtonId)?.text?.toString() ?: ""
     }
 }

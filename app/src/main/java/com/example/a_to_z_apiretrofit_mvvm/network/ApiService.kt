@@ -12,4 +12,9 @@ interface ApiService {
 
     @POST("posts")
     suspend fun createPost(@Body body: JsonElement): Response<JsonElement>
+
+    @POST("posts")
+    suspend fun createPostMedicineData(@Body body: JsonElement): Response<JsonElement>
+
+
 }
